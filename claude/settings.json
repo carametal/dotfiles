@@ -1,0 +1,11 @@
+{
+  "alwaysThinkingEnabled": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1755687277119
+  },
+  "effortLevel": "medium",
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/carametal/.claude/statusline-command.sh"
+  }
+}

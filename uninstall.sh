@@ -32,4 +32,18 @@ else
   echo "==> Brewfile が見つかりません。パッケージの削除をスキップします。"
 fi
 
+# .claude 内のシンボリックリンクを削除
+echo "==> .claude のシンボリックリンクを削除しています..."
+for src in "$DOTFILES_DIR/claude/"*; do
+  filename="$(basename "$src")"
+  dest="$HOME/.claude/$filename"
+
+  if [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]]; then
+    rm "$dest"
+    echo "  [削除] $dest"
+  else
+    echo "  [スキップ] $dest はこの dotfiles へのシンボリックリンクではありません。"
+  fi
+done
+
 echo "==> アンインストールが完了しました。"

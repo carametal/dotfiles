@@ -42,4 +42,20 @@ for src in "$DOTFILES_DIR"/.*; do
   echo "  [リンク] $dest -> $src"
 done
 
+# .claude 内の設定ファイルをシンボリックリンク
+echo "==> .claude の設定ファイルをリンクしています..."
+mkdir -p "$HOME/.claude"
+for src in "$DOTFILES_DIR/claude/"*; do
+  filename="$(basename "$src")"
+  dest="$HOME/.claude/$filename"
+
+  if [[ -e "$dest" && ! -L "$dest" ]]; then
+    echo "  [スキップ] $dest はすでに存在します（シンボリックリンクではありません）。手動で移動してください。"
+    continue
+  fi
+
+  ln -sfn "$src" "$dest"
+  echo "  [リンク] $dest -> $src"
+done
+
 echo "==> インストールが完了しました。"
