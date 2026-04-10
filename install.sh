@@ -1,0 +1,45 @@
+#!/bin/zsh
+
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+echo "==> dotfiles のインストールを開始します..."
+
+# Homebrew
+if ! command -v brew &>/dev/null; then
+  echo "==> Homebrew をインストールしています..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+  echo "==> Homebrew はすでにインストール済みです。スキップします。"
+fi
+
+# Brewfile
+if [[ -f "$DOTFILES_DIR/Brewfile" ]]; then
+  echo "==> Brewfile からパッケージをインストールしています..."
+  brew bundle --file="$DOTFILES_DIR/Brewfile"
+else
+  echo "==> Brewfile が見つかりません。スキップします。"
+fi
+
+# Symlinks
+# dotfiles ディレクトリ内の .(ドット)ファイルを $HOME へシンボリックリンクする
+echo "==> シンボリックリンクを作成しています..."
+for src in "$DOTFILES_DIR"/.*; do
+  filename="$(basename "$src")"
+
+  # . / .. / .git は除外
+  [[ "$filename" == "." || "$filename" == ".." || "$filename" == ".git" ]] && continue
+
+  dest="$HOME/$filename"
+
+  if [[ -e "$dest" && ! -L "$dest" ]]; then
+    echo "  [スキップ] $dest はすでに存在します（シンボリックリンクではありません）。手動で移動してください。"
+    continue
+  fi
+
+  ln -sfn "$src" "$dest"
+  echo "  [リンク] $dest -> $src"
+done
+
+echo "==> インストールが完了しました。"

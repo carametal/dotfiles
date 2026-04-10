@@ -1,0 +1,35 @@
+#!/bin/zsh
+
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+echo "==> dotfiles のアンインストールを開始します..."
+
+# Symlinks
+echo "==> シンボリックリンクを削除しています..."
+for src in "$DOTFILES_DIR"/.*; do
+  filename="$(basename "$src")"
+
+  # . / .. / .git は除外
+  [[ "$filename" == "." || "$filename" == ".." || "$filename" == ".git" ]] && continue
+
+  dest="$HOME/$filename"
+
+  if [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]]; then
+    rm "$dest"
+    echo "  [削除] $dest"
+  else
+    echo "  [スキップ] $dest はこの dotfiles へのシンボリックリンクではありません。"
+  fi
+done
+
+# Brewfile のパッケージを削除
+if [[ -f "$DOTFILES_DIR/Brewfile" ]]; then
+  echo "==> Brewfile のパッケージを削除しています..."
+  brew bundle list --file="$DOTFILES_DIR/Brewfile" | xargs brew uninstall --ignore-dependencies 2>/dev/null || true
+else
+  echo "==> Brewfile が見つかりません。パッケージの削除をスキップします。"
+fi
+
+echo "==> アンインストールが完了しました。"
