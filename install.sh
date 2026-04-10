@@ -58,4 +58,17 @@ for src in "$DOTFILES_DIR/claude/"*; do
   echo "  [リンク] $dest -> $src"
 done
 
+# ghostty 設定ファイルをシンボリックリンク
+echo "==> ghostty の設定ファイルをリンクしています..."
+mkdir -p "$HOME/.config/ghostty"
+src="$DOTFILES_DIR/ghostty/config"
+dest="$HOME/.config/ghostty/config"
+
+if [[ -e "$dest" && ! -L "$dest" ]]; then
+  echo "  [スキップ] $dest はすでに存在します（シンボリックリンクではありません）。手動で移動してください。"
+else
+  ln -sfn "$src" "$dest"
+  echo "  [リンク] $dest -> $src"
+fi
+
 echo "==> インストールが完了しました。"
