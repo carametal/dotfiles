@@ -71,4 +71,20 @@ else
   echo "  [リンク] $dest -> $src"
 fi
 
+# zed 設定ファイルをシンボリックリンク
+echo "==> zed の設定ファイルをリンクしています..."
+mkdir -p "$HOME/.config/zed"
+for src in "$DOTFILES_DIR/zed/"*; do
+  filename="$(basename "$src")"
+  dest="$HOME/.config/zed/$filename"
+
+  if [[ -e "$dest" && ! -L "$dest" ]]; then
+    echo "  [スキップ] $dest はすでに存在します（シンボリックリンクではありません）。手動で移動してください。"
+    continue
+  fi
+
+  ln -sfn "$src" "$dest"
+  echo "  [リンク] $dest -> $src"
+done
+
 echo "==> インストールが完了しました。"
