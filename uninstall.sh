@@ -46,4 +46,16 @@ for src in "$DOTFILES_DIR/claude/"*; do
   fi
 done
 
+# aerospace のシンボリックリンクを削除
+echo "==> aerospace のシンボリックリンクを削除しています..."
+src="$DOTFILES_DIR/aerospace/aerospace.toml"
+dest="$HOME/.config/aerospace/aerospace.toml"
+
+if [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]]; then
+  rm "$dest"
+  echo "  [削除] $dest"
+else
+  echo "  [スキップ] $dest はこの dotfiles へのシンボリックリンクではありません。"
+fi
+
 echo "==> アンインストールが完了しました。"

@@ -87,4 +87,17 @@ for src in "$DOTFILES_DIR/zed/"*; do
   echo "  [リンク] $dest -> $src"
 done
 
+# aerospace 設定ファイルをシンボリックリンク
+echo "==> aerospace の設定ファイルをリンクしています..."
+mkdir -p "$HOME/.config/aerospace"
+src="$DOTFILES_DIR/aerospace/aerospace.toml"
+dest="$HOME/.config/aerospace/aerospace.toml"
+
+if [[ -e "$dest" && ! -L "$dest" ]]; then
+  echo "  [スキップ] $dest はすでに存在します（シンボリックリンクではありません）。手動で移動してください。"
+else
+  ln -sfn "$src" "$dest"
+  echo "  [リンク] $dest -> $src"
+fi
+
 echo "==> インストールが完了しました。"
