@@ -20,6 +20,9 @@ default-root-container-orientation = 'auto'
 # Mouse follows focus
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
+# Start borders on AeroSpace launch
+after-startup-command = ['exec-and-forget borders']
+
 # Gaps
 [gaps]
 inner.horizontal = 8

@@ -46,6 +46,18 @@ for src in "$DOTFILES_DIR/claude/"*; do
   fi
 done
 
+# borders のシンボリックリンクを削除
+echo "==> borders のシンボリックリンクを削除しています..."
+src="$DOTFILES_DIR/borders/bordersrc"
+dest="$HOME/.config/borders/bordersrc"
+
+if [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]]; then
+  rm "$dest"
+  echo "  [削除] $dest"
+else
+  echo "  [スキップ] $dest はこの dotfiles へのシンボリックリンクではありません。"
+fi
+
 # aerospace のシンボリックリンクを削除
 echo "==> aerospace のシンボリックリンクを削除しています..."
 src="$DOTFILES_DIR/aerospace/aerospace.toml"

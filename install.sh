@@ -87,6 +87,19 @@ for src in "$DOTFILES_DIR/zed/"*; do
   echo "  [リンク] $dest -> $src"
 done
 
+# borders 設定ファイルをシンボリックリンク
+echo "==> borders の設定ファイルをリンクしています..."
+mkdir -p "$HOME/.config/borders"
+src="$DOTFILES_DIR/borders/bordersrc"
+dest="$HOME/.config/borders/bordersrc"
+
+if [[ -e "$dest" && ! -L "$dest" ]]; then
+  echo "  [スキップ] $dest はすでに存在します（シンボリックリンクではありません）。手動で移動してください。"
+else
+  ln -sfn "$src" "$dest"
+  echo "  [リンク] $dest -> $src"
+fi
+
 # aerospace 設定ファイルをシンボリックリンク
 echo "==> aerospace の設定ファイルをリンクしています..."
 mkdir -p "$HOME/.config/aerospace"
