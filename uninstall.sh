@@ -70,4 +70,16 @@ else
   echo "  [スキップ] $dest はこの dotfiles へのシンボリックリンクではありません。"
 fi
 
+# nvim のシンボリックリンクを削除
+echo "==> nvim のシンボリックリンクを削除しています..."
+src="$DOTFILES_DIR/nvim"
+dest="$HOME/.config/nvim"
+
+if [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]]; then
+  rm "$dest"
+  echo "  [削除] $dest"
+else
+  echo "  [スキップ] $dest はこの dotfiles へのシンボリックリンクではありません。"
+fi
+
 echo "==> アンインストールが完了しました。"

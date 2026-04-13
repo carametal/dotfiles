@@ -113,4 +113,16 @@ else
   echo "  [リンク] $dest -> $src"
 fi
 
+# nvim 設定ファイルをシンボリックリンク
+echo "==> nvim の設定ファイルをリンクしています..."
+src="$DOTFILES_DIR/nvim"
+dest="$HOME/.config/nvim"
+
+if [[ -e "$dest" && ! -L "$dest" ]]; then
+  echo "  [スキップ] $dest はすでに存在します（シンボリックリンクではありません）。手動で移動してください。"
+else
+  ln -sfn "$src" "$dest"
+  echo "  [リンク] $dest -> $src"
+fi
+
 echo "==> インストールが完了しました。"

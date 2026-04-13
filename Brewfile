@@ -1,4 +1,5 @@
 brew "fnm"
+brew "neovim"
 
 tap "FelixKratz/formulae"
 brew "FelixKratz/formulae/borders"
