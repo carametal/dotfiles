@@ -32,6 +32,14 @@ outer.bottom     = 8
 outer.top        = 8
 outer.right      = 8
 
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'layout floating'
+
 # Key mappings (main mode)
 [mode.main.binding]
 
