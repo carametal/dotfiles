@@ -41,7 +41,13 @@ if.app-id = 'com.tinyspeck.slackmacgap'
 run = 'layout floating'
 
 [[on-window-detected]]
-if.app-id = 'com.google.chat'
+# Google Chyat
+if.app-id = 'com.google.Chrome.app.mdpkiolbdkhdjpekfbkbmhigcaggjagi'
+run = 'layout floating'
+
+[[on-window-detected]]
+# Google Todo リスト
+if.app-id = 'com.google.Chrome.app.okhfeehhillipaleckndoboggdkcebmo'
 run = 'layout floating'
 
 # Key mappings (main mode)
