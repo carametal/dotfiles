@@ -51,6 +51,11 @@ if.app-id = 'com.google.Chrome.app.okhfeehhillipaleckndoboggdkcebmo'
 run = 'layout floating'
 
 [[on-window-detected]]
+# Google Keep
+if.app-id = 'com.google.Chrome.app.eilembjdkfgodjkcjnpgpaenohkicgjd'
+run = 'layout floating'
+
+[[on-window-detected]]
 if.app-id = 'com.electron.dockerdesktop'
 run = 'layout floating'
 
