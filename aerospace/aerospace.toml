@@ -20,8 +20,13 @@ default-root-container-orientation = 'auto'
 # Mouse follows focus
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-# Start borders on AeroSpace launch
-after-startup-command = ['exec-and-forget borders']
+# Start borders and sketchybar on AeroSpace launch
+after-startup-command = ['exec-and-forget borders', 'exec-and-forget sketchybar']
+
+# Notify sketchybar on workspace change
+exec-on-workspace-change = ['/bin/bash', '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
 
 # Gaps
 [gaps]
@@ -29,7 +34,7 @@ inner.horizontal = 8
 inner.vertical   = 8
 outer.left       = 8
 outer.bottom     = 8
-outer.top        = 8
+outer.top        = 40
 outer.right      = 8
 
 [[on-window-detected]]

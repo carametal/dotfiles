@@ -125,4 +125,30 @@ else
   echo "  [リンク] $dest -> $src"
 fi
 
+# sketchybar 設定ファイルをシンボリックリンク
+echo "==> sketchybar の設定ファイルをリンクしています..."
+mkdir -p "$HOME/.config/sketchybar/plugins"
+src="$DOTFILES_DIR/sketchybar/sketchybarrc"
+dest="$HOME/.config/sketchybar/sketchybarrc"
+
+if [[ -e "$dest" && ! -L "$dest" ]]; then
+  echo "  [スキップ] $dest はすでに存在します（シンボリックリンクではありません）。手動で移動してください。"
+else
+  ln -sfn "$src" "$dest"
+  echo "  [リンク] $dest -> $src"
+fi
+
+for src in "$DOTFILES_DIR/sketchybar/plugins/"*; do
+  filename="$(basename "$src")"
+  dest="$HOME/.config/sketchybar/plugins/$filename"
+
+  if [[ -e "$dest" && ! -L "$dest" ]]; then
+    echo "  [スキップ] $dest はすでに存在します（シンボリックリンクではありません）。手動で移動してください。"
+    continue
+  fi
+
+  ln -sfn "$src" "$dest"
+  echo "  [リンク] $dest -> $src"
+done
+
 echo "==> インストールが完了しました。"

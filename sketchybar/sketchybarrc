@@ -1,0 +1,114 @@
+#!/bin/bash
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+# Colors (Catppuccin Mocha palette + borders accent)
+BAR_COLOR=0xdd1e1e2e
+ACCENT_COLOR=0xff9dc814      # borders active color (green)
+TEXT_COLOR=0xffcdd6f4        # Catppuccin text
+SUBTEXT_COLOR=0xff585b70     # Catppuccin surface2
+DIM_COLOR=0x44cdd6f4         # dimmed
+WARN_COLOR=0xfffab387        # Catppuccin peach
+ERROR_COLOR=0xfff38ba8       # Catppuccin red
+
+##### Bar Appearance #####
+sketchybar \
+  --bar \
+    position=top \
+    height=32 \
+    blur_radius=20 \
+    color=$BAR_COLOR \
+    border_width=0 \
+    shadow=off \
+    sticky=on \
+    padding_left=8 \
+    padding_right=8
+
+##### Default values #####
+sketchybar --default \
+  updates=when_shown \
+  icon.font="SF Pro:Bold:13.0" \
+  label.font="SF Pro:Semibold:13.0" \
+  icon.color=$TEXT_COLOR \
+  label.color=$TEXT_COLOR \
+  padding_left=4 \
+  padding_right=4 \
+  label.padding_left=4 \
+  label.padding_right=4 \
+  icon.padding_left=4 \
+  icon.padding_right=4
+
+##### AeroSpace Workspace Indicators #####
+sketchybar --add event aerospace_workspace_change
+
+for sid in $(aerospace list-workspaces --all 2>/dev/null); do
+  sketchybar --add item space."$sid" left \
+    --set space."$sid" \
+      background.color=$ACCENT_COLOR \
+      background.corner_radius=4 \
+      background.height=20 \
+      background.drawing=off \
+      label="$sid" \
+      label.font="SF Pro:Bold:12.0" \
+      label.color=$DIM_COLOR \
+      label.padding_left=6 \
+      label.padding_right=6 \
+      click_script="aerospace workspace $sid" \
+      script="$PLUGIN_DIR/aerospace.sh $sid" \
+    --subscribe space."$sid" aerospace_workspace_change
+done
+
+# Bracket workspaces together with a subtle background
+sketchybar --add bracket spaces '/space\..*/' \
+  --set spaces \
+    background.color=0x22cdd6f4 \
+    background.corner_radius=6 \
+    background.height=26 \
+    background.drawing=on \
+    padding_left=2 \
+    padding_right=2
+
+##### Front App (left, after workspaces) #####
+sketchybar --add item front_app left \
+  --set front_app \
+    icon.drawing=off \
+    label.font="SF Pro:Semibold:13.0" \
+    label.color=$SUBTEXT_COLOR \
+    padding_left=12 \
+    padding_right=4 \
+    script="$PLUGIN_DIR/front_app.sh" \
+  --subscribe front_app front_app_switched
+
+##### Right Side Items #####
+sketchybar --add item clock right \
+  --set clock \
+    update_freq=10 \
+    icon.drawing=off \
+    label.font="SF Pro:Semibold:13.0" \
+    label.color=$TEXT_COLOR \
+    padding_left=4 \
+    padding_right=8 \
+    script="$PLUGIN_DIR/clock.sh"
+
+sketchybar --add item battery right \
+  --set battery \
+    update_freq=120 \
+    icon.drawing=off \
+    label.font="SF Pro:Semibold:13.0" \
+    padding_left=4 \
+    padding_right=4 \
+    script="$PLUGIN_DIR/battery.sh" \
+  --subscribe battery system_woke power_source_change
+
+sketchybar --add item wifi right \
+  --set wifi \
+    icon.drawing=off \
+    label.font="SF Pro:Semibold:13.0" \
+    label.color=$TEXT_COLOR \
+    padding_left=4 \
+    padding_right=4 \
+    script="$PLUGIN_DIR/wifi.sh" \
+  --subscribe wifi wifi_change
+
+##### Force initial update #####
+sketchybar --update
