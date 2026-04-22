@@ -77,6 +77,10 @@ alt-l = 'focus right'
 alt-cmd-ctrl-h = 'focus-monitor left'
 alt-cmd-ctrl-l = 'focus-monitor right'
 
+# Move window to monitor (and follow focus)
+alt-cmd-ctrl-shift-h = ['move-node-to-monitor left',  'focus-monitor left']
+alt-cmd-ctrl-shift-l = ['move-node-to-monitor right', 'focus-monitor right']
+
 # Move window
 alt-shift-h = 'move left'
 alt-shift-j = 'move down'
